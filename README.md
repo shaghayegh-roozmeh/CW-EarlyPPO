@@ -1,6 +1,6 @@
-# Class-Weighted PPO for Early Time-Series Classification
+# Early Classification of Industrial Sensor Signals with Class-Weighted Proximal Policy Optimization
 
-This repository contains the code and experimental results for our study of **class-weighted Proximal Policy Optimization (PPO)** for early time-series classification on the UCR Wafer dataset.
+This repository contains the code and experimental results for our study of **class-weighted Proximal Policy Optimization (PPO)** for early classification of industrial sensor signals on the UCR Wafer dataset.
 
 Early classification requires a model to decide both *what* a signal represents and *when* it has seen enough to make that decision. This is especially challenging when one class is much less common than the other: a policy can achieve high overall accuracy while missing many minority-class examples. We study whether weighting the PPO policy and entropy losses can improve minority-class recognition without changing the original class distribution or the reward function.
 
@@ -8,20 +8,21 @@ The agent observes a growing prefix of a sensor signal and can either wait for a
 
 ## Repository structure
 
-```text
-CW-EarlyPPO/
-├── experiments/
-│   ├── PPO_Standard_Mild_100k_Final_3Seeds/   # Main experiment (alpha = 0.5)
-│   ├── ppo_alpha0/                            # No class weighting
-│   ├── ppo_alpha1/                            # Stronger class weighting
-│   ├── ppo_alpha*_wait*/                      # Waiting-penalty experiments
-│   ├── ppo_alpha05_start1/                    # Episodes start at the first observation
-│   ├── ppo_alpha05_current_only/              # Current observation only
-│   └── ppo_legacy_updates_alpha*/            # Alternative PPO update settings
-└── results/                                   # Per-seed and summary CSV tables
-```
+All paths below are relative to the repository root. The examples assume that the shared dataset folder is named `data/`; adjust the paths if your copy uses a different name or location.
 
-Each experiment has its own Python files, requirements, data, executed notebook, and final results. We keep the source files together rather than moving them into a shared package, so the original imports and relative data paths are preserved.
+| Path | Contents |
+|---|---|
+| `data/` | Shared Wafer dataset: `wafer_TRAIN` and `wafer_TEST` |
+| `experiments/PPO_Standard_Mild_100k_Final_3Seeds/` | Main experiment with moderate class weighting (`alpha = 0.5`) |
+| `experiments/ppo_alpha0/` | No class weighting |
+| `experiments/ppo_alpha1/` | Stronger class weighting |
+| `experiments/ppo_alpha*_wait*/` | Waiting-penalty experiments |
+| `experiments/ppo_alpha05_start1/` | Episodes start at the first observation |
+| `experiments/ppo_alpha05_current_only/` | Current observation only |
+| `experiments/ppo_legacy_updates_alpha*/` | Alternative PPO update settings |
+| `results/` | Per-seed and summary CSV tables |
+
+Each experiment has its own Python files, requirements, executed notebook, and reported results. Source files are kept with their experiments to preserve the original imports. **The dataset is stored once in the shared folder and is no longer duplicated inside each experiment directory.**
 
 ## Main results
 
@@ -38,26 +39,53 @@ Mild class weighting improves minority-class recognition in these runs, with a m
 
 ## Getting started
 
-The experiments were run with **Python 3.12**. Start from the main experiment directory:
+The experiments were run with **Python 3.12**. From the repository root, enter the main experiment directory and install its dependencies:
 
 ```bash
 cd experiments/PPO_Standard_Mild_100k_Final_3Seeds
 python -m pip install -r requirements_equal_budget.txt
 ```
 
+### Configure the dataset path
+
+The shared dataset folder must contain the original files named **`wafer_TRAIN`** and **`wafer_TEST`**. Keep their names and contents unchanged; the data loader checks the original file hashes.
+
+Some scripts and notebook cells still use the original experiment-local `data/` path. Before running an experiment, choose one of the following approaches:
+
+1. **Use the shared dataset folder.** For scripts that accept `--data-dir`, pass the path explicitly. From an experiment directory directly inside `experiments/`, the shared folder at the repository root is `../../data`. For scripts with a fixed data path, update that path in the code as described below.
+2. **Use an experiment-local copy.** Create a `data/` directory inside the experiment you want to run and copy `wafer_TRAIN` and `wafer_TEST` into it. The scripts can then use their original local paths. For evaluation with this arrangement, use `--data-dir data`.
+
+An absolute path to the shared dataset folder can also be used. Relative paths passed on the command line are resolved from the directory where the command is run.
+
 ### Evaluate the saved models
 
-The main experiment includes the final checkpoints for all three seeds. You can evaluate them without retraining:
+The main experiment includes the final checkpoints for all three seeds. The evaluation script accepts `--data-dir`, so the shared dataset can be used directly without retraining:
 
 ```bash
-python evaluate_final.py --models-root models --data-dir data --output reevaluation_01
+python evaluate_final.py --models-root models --data-dir ../../data --output reevaluation_01
 ```
 
-Use a new output directory for each evaluation; the script will not overwrite an existing one.
+This command assumes that you are still in `experiments/PPO_Standard_Mild_100k_Final_3Seeds/` and that the shared dataset is in the repository-root `data/` folder. Use a new output directory for each evaluation; the script will not overwrite an existing one.
 
 ### Train a new model
 
-To train the main configuration from scratch with seed 0:
+The training launcher `run_equal_budget_experiments.py` sets the dataset path inside the code and **does not accept a `--data-dir` command-line argument**.
+
+To train using the shared repository-root dataset, find the following setting in the experiment's `run_equal_budget_experiments.py`:
+
+```python
+data_dir=str(ROOT / 'data')
+```
+
+Replace it with:
+
+```python
+data_dir=str(ROOT.parent.parent / 'data')
+```
+
+Here, `ROOT` is the experiment directory. If you chose the experiment-local copy described above, keep the original setting.
+
+After configuring the dataset path, train the main configuration from scratch with seed 0:
 
 ```bash
 python run_equal_budget_experiments.py \
@@ -66,9 +94,15 @@ python run_equal_budget_experiments.py \
   --output fresh_run_seed0
 ```
 
-Change the seed and output directory to run the other seeds. The experiment folders also include executed notebooks with recorded outputs. Some notebooks can write local source or data files when their training cells are enabled, so run them in a separate working copy if you want to preserve this archive unchanged.
+Change the seed and output directory to run the other seeds. Apply the same dataset-path setup separately to any other experiment you run.
 
-The other ablation folders include their code, data, notebooks, and reported results, but **not** their trained model checkpoints. Those models must be trained again to reevaluate them directly.
+### Run the notebooks
+
+The experiment folders include executed notebooks with recorded outputs. Before enabling training or evaluation cells, check the notebook's dataset path and point it to the shared folder, or provide an experiment-local copy of the two dataset files.
+
+Some notebook cells write Python scripts or recreate local data files. Check the paths in those cells as well: rerunning a script-writing cell can restore the original experiment-local dataset path and overwrite a manual edit to the corresponding Python file. Run notebooks in a separate working copy if you want to preserve the recorded experiment files.
+
+The other ablation folders include their code, notebooks, and reported results, but **not** their trained model checkpoints. Those models must be trained again to reevaluate them directly, using the shared dataset or an experiment-local copy as described above.
 
 ## Dataset and evaluation
 
