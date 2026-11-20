@@ -13,14 +13,22 @@ All paths below are relative to the repository root. The examples assume that th
 | Path | Contents |
 |---|---|
 | `data/` | Shared Wafer dataset: `wafer_TRAIN` and `wafer_TEST` |
-| `experiments/PPO_Standard_Mild_100k_Final_3Seeds/` | Main experiment with moderate class weighting (`alpha = 0.5`) |
-| `experiments/ppo_alpha0/` | No class weighting |
-| `experiments/ppo_alpha1/` | Stronger class weighting |
-| `experiments/ppo_alpha*_wait*/` | Waiting-penalty experiments |
-| `experiments/ppo_alpha05_start1/` | Episodes start at the first observation |
-| `experiments/ppo_alpha05_current_only/` | Current observation only |
-| `experiments/ppo_legacy_updates_alpha*/` | Alternative PPO update settings |
+| `experiments/PPO_Standard_Mild_100k_Final_3Seeds/` | Main experiment: standard sampling, moderate class weighting (`alpha = 0.5`), and the base WAIT cost |
+| `experiments/ppo_alpha0/` | Unweighted PPO (`alpha = 0`) with the base WAIT cost |
+| `experiments/ppo_alpha05_current_only/` | Current observation only, with `alpha = 0.5` |
+| `experiments/ppo_alpha05_start1/` | Training episodes always start at the first observation, with `alpha = 0.5` |
+| `experiments/ppo_alpha05_wait0p1x/` | Moderate class weighting (`alpha = 0.5`) with 0.1 times the base WAIT cost |
+| `experiments/ppo_alpha05_wait10x/` | Moderate class weighting (`alpha = 0.5`) with 10 times the base WAIT cost |
+| `experiments/ppo_alpha0_wait0p1x/` | Unweighted PPO (`alpha = 0`) with 0.1 times the base WAIT cost |
+| `experiments/ppo_alpha0_wait10x/` | Unweighted PPO (`alpha = 0`) with 10 times the base WAIT cost |
+| `experiments/ppo_alpha1/` | Stronger class weighting (`alpha = 1`) with the base WAIT cost |
+| `experiments/ppo_alpha1_wait0p1x/` | Stronger class weighting (`alpha = 1`) with 0.1 times the base WAIT cost |
+| `experiments/ppo_alpha1_wait10x/` | Stronger class weighting (`alpha = 1`) with 10 times the base WAIT cost |
+| `experiments/ppo_legacy_updates_alpha0/` | Alternative PPO update schedule with `alpha = 0` |
+| `experiments/ppo_legacy_updates_alpha05/` | Alternative PPO update schedule with `alpha = 0.5` |
 | `results/` | Per-seed and summary CSV tables |
+
+The base WAIT-cost coefficient is `0.0001`. The `wait0p1x` and `wait10x` experiments use coefficients of `0.00001` and `0.001`, respectively.
 
 Each experiment has its own Python files, requirements, executed notebook, and reported results. Source files are kept with their experiments to preserve the original imports. **The dataset is stored once in the shared folder and is no longer duplicated inside each experiment directory.**
 
