@@ -1,0 +1,11 @@
+{
+  "completed": true,
+  "env_steps": 100000,
+  "actual_gradient_steps": 100000,
+  "model_parameters": 95428,
+  "optimizer_steps_requested": 100000,
+  "exact_update_budget_met": true,
+  "target_kl": null,
+  "completed_rollouts": 49,
+  "optimizer_updates_counted_by": "Adam post-step hook, checked against explicit counter"
+}
