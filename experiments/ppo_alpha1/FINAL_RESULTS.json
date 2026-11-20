@@ -1,0 +1,229 @@
+{
+  "method": "G_stable_weighted_equal_budget",
+  "sampler": "standard",
+  "actor_balance_alpha": 1.0,
+  "actor_weighting_active": "entire training",
+  "checkpoint_selection": "fixed_final_budget",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "independent_training_runs": 3,
+  "environment_steps_per_run": 100000,
+  "optimizer_steps_per_run": 100000,
+  "train_n": 800,
+  "validation_n": 200,
+  "split_seed": 0,
+  "test_n": 6164,
+  "test_action_selection": "greedy",
+  "aggregate": {
+    "accuracy_pct": {
+      "mean": 93.9487345879299,
+      "sample_sd": 0.98321350256338
+    },
+    "balanced_accuracy_pct": {
+      "mean": 89.18375680973666,
+      "sample_sd": 2.257721021692897
+    },
+    "macro_f1_pct": {
+      "mean": 85.7021578888904,
+      "sample_sd": 1.6294670992768001
+    },
+    "minority_recall_pct": {
+      "mean": 83.1077694235589,
+      "sample_sd": 5.69512683201423
+    },
+    "mean_observations": {
+      "mean": 1.7980748431754272,
+      "sample_sd": 0.7474743795950943
+    }
+  },
+  "runs": [
+    {
+      "seed": 0,
+      "method": "G_stable_weighted_equal_budget",
+      "checkpoint": "last_model.zip",
+      "checkpoint_selection": "fixed_final_budget",
+      "environment_steps": 100000,
+      "optimizer_steps": 100000,
+      "checkpoint_sha256": "1744de2c2d8ba1f03f064e65a78b75075f6939e190fee4de178dafad1d96902f",
+      "test_used_for_selection": false,
+      "test_hash": "bfce80cbcb14d2623c64e70c81ef8a83204c79a5fa739cd247c78b5b34610605",
+      "greedy": {
+        "n": 6164,
+        "evaluation": "greedy",
+        "accuracy": 0.9368916288124595,
+        "balanced_accuracy": 0.8701134997887519,
+        "macro_f1": 0.8464185348503622,
+        "confusion_matrix": [
+          [
+            522,
+            143
+          ],
+          [
+            246,
+            5253
+          ]
+        ],
+        "recall_by_class": [
+          0.7849624060150376,
+          0.955264593562466
+        ],
+        "avg_t": 2.66109669046074,
+        "earliness": 0.017507215068820657,
+        "first_stop_fraction": 0.3854639844256976,
+        "mean_return": 0.8735419966516925,
+        "avg_t_by_class": [
+          2.1052631578947367,
+          2.728314238952537
+        ],
+        "action_counts": [
+          10239,
+          768,
+          5396
+        ],
+        "first_probs_by_class": [
+          [
+            0.508704662322998,
+            0.3920733630657196,
+            0.09922181069850922
+          ],
+          [
+            0.499663770198822,
+            0.024190779775381088,
+            0.4761456847190857
+          ]
+        ]
+      },
+      "single_class_predictions": false
+    },
+    {
+      "seed": 1,
+      "method": "G_stable_weighted_equal_budget",
+      "checkpoint": "last_model.zip",
+      "checkpoint_selection": "fixed_final_budget",
+      "environment_steps": 100000,
+      "optimizer_steps": 100000,
+      "checkpoint_sha256": "d3a11348ce29070cf9ccb64f52269356915238dc275999df442afcd96f5013f1",
+      "test_used_for_selection": false,
+      "test_hash": "bfce80cbcb14d2623c64e70c81ef8a83204c79a5fa739cd247c78b5b34610605",
+      "greedy": {
+        "n": 6164,
+        "evaluation": "greedy",
+        "accuracy": 0.9503569110966905,
+        "balanced_accuracy": 0.8902184539362591,
+        "macro_f1": 0.875784077678087,
+        "confusion_matrix": [
+          [
+            541,
+            124
+          ],
+          [
+            182,
+            5317
+          ]
+        ],
+        "recall_by_class": [
+          0.8135338345864662,
+          0.966903073286052
+        ],
+        "avg_t": 1.377190136275146,
+        "earliness": 0.009060461422862803,
+        "first_stop_fraction": 0.6875405580791694,
+        "mean_return": 0.9006743769265141,
+        "avg_t_by_class": [
+          1.4150375939849624,
+          1.3726132024004365
+        ],
+        "action_counts": [
+          2325,
+          723,
+          5441
+        ],
+        "first_probs_by_class": [
+          [
+            0.37309375405311584,
+            0.47975045442581177,
+            0.14715568721294403
+          ],
+          [
+            0.4214310348033905,
+            0.031464867293834686,
+            0.5471065044403076
+          ]
+        ]
+      },
+      "single_class_predictions": false
+    },
+    {
+      "seed": 2,
+      "method": "G_stable_weighted_equal_budget",
+      "checkpoint": "last_model.zip",
+      "checkpoint_selection": "fixed_final_budget",
+      "environment_steps": 100000,
+      "optimizer_steps": 100000,
+      "checkpoint_sha256": "ebfd190d2eacad951685286a4aea229017aeb288641afe893dbb38bfc928dcdf",
+      "test_used_for_selection": false,
+      "test_hash": "bfce80cbcb14d2623c64e70c81ef8a83204c79a5fa739cd247c78b5b34610605",
+      "greedy": {
+        "n": 6164,
+        "evaluation": "greedy",
+        "accuracy": 0.9312134977287476,
+        "balanced_accuracy": 0.9151807505670888,
+        "macro_f1": 0.8488621241382628,
+        "confusion_matrix": [
+          [
+            595,
+            70
+          ],
+          [
+            354,
+            5145
+          ]
+        ],
+        "recall_by_class": [
+          0.8947368421052632,
+          0.9356246590289143
+        ],
+        "avg_t": 1.3559377027903958,
+        "earliness": 0.008920642781515761,
+        "first_stop_fraction": 0.6909474367293965,
+        "mean_return": 0.8623896493231202,
+        "avg_t_by_class": [
+          1.5293233082706768,
+          1.3349699945444626
+        ],
+        "action_counts": [
+          2194,
+          949,
+          5215
+        ],
+        "first_probs_by_class": [
+          [
+            0.4555289149284363,
+            0.42213138937950134,
+            0.12233954668045044
+          ],
+          [
+            0.27480369806289673,
+            0.08379581570625305,
+            0.6414006948471069
+          ]
+        ]
+      },
+      "single_class_predictions": false
+    }
+  ],
+  "source_hashes": {
+    "ppo_wafer.py": "35cbfe30f835b4c708b0254fdc6567f561fe51f33ec1a07d1717d1d072652794",
+    "balanced_ppo.py": "d8b60ee2f5de61252b8ef5184fd8de4c8319a78b6010de870810b04adf3580d5",
+    "equal_budget_ppo.py": "eccc97f37482a86230c814739842a0c0ceee5b4159388852ad44ab08d5cf6840",
+    "run_equal_budget_experiments.py": "f5361beda882749c74dbfb2527d5aaaa3489c8909af3cbacdf9853c66a4867db"
+  },
+  "actual_new_training": true,
+  "no_new_training": false,
+  "no_new_policy_selection": true,
+  "metrics_recomputed_from_saved_predictions": true,
+  "single_class_runs": 0
+}
